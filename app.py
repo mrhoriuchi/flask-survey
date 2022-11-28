@@ -26,9 +26,35 @@ def start_survey():
     return redirect("/questions/0")
 
 
+@app.route("/answer", methods=["POST"])
+def handle_question():
+    choice = request.form['answer']
+
+    responses = session[RESPONSES_KEY]
+    responses.append(choice)
+    session[RESPONSES_KEY] = responses
+
+    if (len(responses) == len(survey.questions)):
+        return redirect("/complete")
+    return redirect(f"/questions/{len(responses)}")
+
+
 @app.route("/questions/<int:qid>")
 def show_question(qid):
     """Shows the question"""
-
+    responses = session.get(RESPONSES_KEY)
+    if (responses is None):
+        return redirect("/")
+    if (len(responses) == len(survey.questions)):
+        return redirect("/complete")
+    if (len(responses) != qid):
+        return redirect(f"/questions/{len(responses)}")
     question = survey.questions[qid]
     return render_template("question.html", question_num=qid, question=question)
+
+
+@app.route("/complete")
+def complete():
+    """Survey is complete"""
+
+    return render_template("complete.html")
