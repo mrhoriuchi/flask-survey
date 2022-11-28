@@ -5,5 +5,14 @@
 <form action="/">
     <button>Return Home</button>
 </form>
+<ul>
+    {% for question in survey.questions %}
+    <li>
+        <b>{{ question.question }}</b>
+        {{ responses[loop.index0]["choice"] }}
+        <i>{{ responses[loop.index0]["text"] }}</i>
+    </li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
