@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import satisfaction_survey as survey
 
+CURRENT_SURVEY_KEY = "current_survey"
 RESPONSES_KEY = "responses"
 
 app = Flask(__name__)
@@ -57,5 +58,8 @@ def show_question(qid):
 @app.route("/complete")
 def complete():
     """Survey is complete"""
+    # survey_id = session[CURRENT_SURVEY_KEY]
+    # survey = surveys[survey_id]
+    responses = session[RESPONSES_KEY]
 
-    return render_template("complete.html")
+    return render_template("complete.html", survey=survey, responses=responses)
