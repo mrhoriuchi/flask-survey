@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from flask_debugtoolbar import DebugToolBarExtension
+from surveys import satisfaction_survey as survey
 
 app = Flask(__name__)
 app.config['SSECRET_KEY'] = "oh so secret"
