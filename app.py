@@ -30,9 +30,10 @@ def start_survey():
 @app.route("/answer", methods=["POST"])
 def handle_question():
     choice = request.form['answer']
+    text = request.form.get("text", "")
 
     responses = session[RESPONSES_KEY]
-    responses.append(choice)
+    responses.append({"choice": choice, "text": text})
     session[RESPONSES_KEY] = responses
 
     if (len(responses) == len(survey.questions)):
